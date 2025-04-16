@@ -1,24 +1,27 @@
 fetch('data/books.json')
-  .then(response => response.json())
-  .then(data => {
+  .then(res => res.json())
+  .then(json => {
+    const { books } = json;
     const bookList = document.getElementById('bookList');
     const searchBox = document.getElementById('searchBox');
-    
-    function displayBooks(filter = "") {
-      bookList.innerHTML = "";
-      data.books
-        .filter(book => book.title.toLowerCase().includes(filter.toLowerCase()))
-        .forEach(book => {
-          const item = document.createElement('div');
-          item.className = 'book-item';
-          item.innerHTML = `<a href="viewer.html?book=${book.file}">${book.title}</a>`;
-          bookList.appendChild(item);
+
+    function render(filter = '') {
+      bookList.innerHTML = '';
+      books
+        .filter(b => b.title.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(b => {
+          const card = document.createElement('div');
+          card.className = 'book-card';
+          card.innerHTML = `
+            <a href="viewer.html?book=${b.file}" target="_blank">
+              <img src="${b.cover}" alt="${b.title} cover">
+              <span class="book-title">${b.title}</span>
+            </a>
+          `;
+          bookList.appendChild(card);
         });
     }
 
-    displayBooks();
-
-    searchBox.addEventListener('input', (e) => {
-      displayBooks(e.target.value);
-    });
+    render();
+    searchBox.addEventListener('input', e => render(e.target.value));
   });
