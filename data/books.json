@@ -1,0 +1,8 @@
+{
+  "books": [
+    {
+      "title": "Sample Book",
+      "file": "sample-book.pdf"
+    }
+  ]
+}
